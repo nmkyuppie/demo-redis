@@ -7,7 +7,6 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
@@ -15,17 +14,18 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 import java.util.Collections;
-import java.util.List;
 
 @Configuration
 public class RedisConfig {
 
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("redis-15704.c10.us-east-1-4.ec2.cloud.redislabs.com", 15704);
-        redisStandaloneConfiguration.setPassword("zj77hnR4ugSaeb3TvIyeyIpDLcy7ppuL");
+        RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(Collections.singletonList("redis-cluster.5xb7tt.ng.0001.use1.cache.amazonaws.com:6379"));
+//        redisClusterConfiguration.clusterNode(new RedisNode("redis-cluster.5xb7tt.ng.0001.use1.cache.amazonaws.com", 6379));
+//        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("redis-15704.c10.us-east-1-4.ec2.cloud.redislabs.com", 15704);
+//        redisStandaloneConfiguration.setPassword("zj77hnR4ugSaeb3TvIyeyIpDLcy7ppuL");
 //        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("localhost", 6379);
-        return new JedisConnectionFactory(redisStandaloneConfiguration);
+        return new JedisConnectionFactory(redisClusterConfiguration);
     }
 
     @Bean
